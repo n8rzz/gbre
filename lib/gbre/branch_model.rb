@@ -1,7 +1,7 @@
 #!/bin/env/ruby
 
 # require 'rainbow'
-require 'json'
+require "json"
 
 module Gbre
   class BranchModel
@@ -31,9 +31,13 @@ module Gbre
     end
 
     def display_branch
-      colored_issue_state = @issue_state == 'open' ? Rainbow("(#{@issue_state})").green : Rainbow("(#{@issue_state})").red
       colored_active_branch = @is_active_branch ? Rainbow("#{@name}").magenta : "#{@name}"
       colored_issue_title = @is_active_branch ? Rainbow("#{@issue_title}").magenta : "#{@issue_title}"
+      colored_issue_state = ""
+
+      if @issue_state != ""
+        colored_issue_state = @issue_state == 'open' ? Rainbow("(#{@issue_state})").green : Rainbow("(#{@issue_state})").red
+      end
 
       if @is_issue
         branch_view = [colored_issue_state.to_s, colored_active_branch.to_s, colored_issue_title.to_s]

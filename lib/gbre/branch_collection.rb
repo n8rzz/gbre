@@ -4,14 +4,21 @@
 
 module Gbre
   class BranchCollection
-    attr_accessor :items
-
     def initialize
       @items = build_branch_list
     end
 
     def display_branch_list
-      table = Terminal::Table.new do |t|
+      table = build_table_view
+
+      puts "\n\n"
+      puts table
+    end
+
+    private
+
+    def build_table_view
+      Terminal::Table.new do |t|
         t.title = "GIT Branch Enhanced"
         t.style.padding_left = 2
         t.style.padding_right = 2
@@ -23,11 +30,7 @@ module Gbre
 
         t.align_column(0, :right)
       end
-
-      puts table
     end
-
-    private
 
     def build_branch_list
       local_branches = %x[git branch].split(' ')

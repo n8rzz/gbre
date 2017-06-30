@@ -4,7 +4,7 @@
 require "rainbow"
 require "terminal-table"
 
-require "gbre/http_service"
+require "gbre/github_issue_repository"
 require "gbre/branch_model"
 require "gbre/branch_collection"
 require "gbre/version"

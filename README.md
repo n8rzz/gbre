@@ -1,28 +1,51 @@
 # Gbre
+Gbre stands for _Git Branch Enhanced_ and is an extremely opinionated layer added on top of the `git branch` command.  
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/gbre`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'gbre'
+```bash
+$ gem install gbre
 ```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install gbre
 
 ## Usage
 
-TODO: Write usage instructions here
+In order to use this gem, the following conditions must be met:
+- git branches are named `TOPIC/ISSUE_NUMBER` (ex: `feature/123`)
+- you are working within the hardcoded project ([Openscope](http://github.com/openscope/openscope))
+- you can run ruby
+
+From the repository root run:
+```bash
+$ gbre
+```
+
+This gem will transform the usual `git branch` output from:
+```bash
+* develop
+  feature/123
+  feature/124
+  feature/126
+  master
+  release/0.1.0
+```
+
+into a list with a little more information:
+```bash
++-----------+----------------------+-----------------------------+
+|                      GIT Branch Enhanced                       |
++-----------+----------------------+-----------------------------+
+|  State    |  Branch Name         |  Issue Title                |
++-----------+----------------------+-----------------------------+
+|           |  develop             |                             |
+|  (open)   |  feature/123         |  a placeholder issue title  |
+|  (open)   |  feature/124         |  a placeholder issue title  |
+|  (closed) |  feature/126         |  a placeholder issue title  |
+|           |  master              |                             |
+|           |  release/0.1.0       |  a placeholder issue title  |
++-----------+----------------------+-----------------------------+
+```
+
 
 ## Development
 
@@ -32,7 +55,8 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/gbre.
+Bug reports and pull requests are welcome on GitHub at https://github.com/n8rzz/gbre.
+
 
 ## License
 

@@ -52,7 +52,7 @@ module Gbre
     private
 
     def get_current_issue_status
-      issue_response = JSON.parse(HttpService.get(@api_url))
+      issue_response = JSON.parse(GithubIssueRepository.get(@api_url))
 
       @issue_state = issue_response["state"]
       @issue_title = issue_response["title"]

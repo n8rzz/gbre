@@ -8,6 +8,10 @@ require 'gbre/branch_collection'
 require 'gbre/version'
 
 module Gbre
+  # Gem entry point
+  #
+  # Creates a `BranchCollection` instance. Then displays a list of
+  # git branches in with github issue title and status
   class Command
     def self.execute
       branch_collection = BranchCollection.new

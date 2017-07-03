@@ -25,9 +25,9 @@ RSpec.describe Gbre::BranchModel do
       expect(@branch_model.is_active_branch).to eq false
     end
 
-    it 'builds the correct array when #issue_state is defined' do
-      @branch_model = Gbre::BranchModel.new(release_mock)
-      expect(@branch_model.display_branch).to include('release/1.2.3', '')
+    it 'returns the correct string when the branch maps to an issue number' do
+      @branch_model = Gbre::BranchModel.new(feature_mock)
+      expect(@branch_model.display_branch).to include('open', 'feature/123', 'An Issue Title')
     end
   end
 
@@ -37,6 +37,26 @@ RSpec.describe Gbre::BranchModel do
                          'status' => 'open' }.to_json
       allow(Gbre::GithubIssueRepository).to receive(:get)
         .and_return(issue_response)
+    end
+
+    it 'does not set issue number for a main branch' do
+      @branch_model = Gbre::BranchModel.new(develop_mock)
+      expect(@branch_model.issue_number).to eq -1
+    end
+
+    it 'returns the correct string for a main branch' do
+      @branch_model = Gbre::BranchModel.new(develop_mock)
+      expect(@branch_model.display_branch).to include('develop')
+    end
+
+    it 'does not set issue number for a release branch' do
+      @branch_model = Gbre::BranchModel.new(release_mock)
+      expect(@branch_model.issue_number).to eq -1
+    end
+
+    it 'returns the correct string for a release branch' do
+      @branch_model = Gbre::BranchModel.new(release_mock)
+      expect(@branch_model.display_branch).to include('release/1.2.3')
     end
   end
 end

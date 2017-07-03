@@ -32,6 +32,7 @@ module Gbre
     # @param is_active_branch [Boolean] is the branch checked out locally
     def initialize(name, is_active_branch = false)
       @name = name
+      @issue_number = -1
       @is_active_branch = is_active_branch
       @is_issue = name.include?('/')
 
@@ -42,7 +43,11 @@ module Gbre
     def set_issue_number
       branch_name_after_slash = @name.partition('/').last
 
-      should_check_status?(branch_name_after_slash)
+      # should_check_status?(branch_name_after_slash)
+
+      return if !@is_issue ||
+        branch_name_after_slash.to_i.zero? ||
+        branch_name_after_slash.include?('.')
 
       @issue_number = branch_name_after_slash.to_i
 
@@ -53,32 +58,22 @@ module Gbre
     # @return [Array<String>]
     def display_branch
       colored_active_branch = build_magenta_text_with_condition(@name, @is_active_branch)
+      colored_issue_state = build_colored_issue_state
       colored_issue_title = build_magenta_text_with_condition(@issue_title, @is_active_branch)
-      colored_issue_state = ''
 
-      colored_issue_state = build_colored_issue_state if @issue_state != ''
-
-      if @is_issue
-        branch_view = [
-          colored_issue_state.to_s,
-          colored_active_branch.to_s,
-          colored_issue_title.to_s
-        ]
-
-        return branch_view
-      end
-
-      branch_view = ['', colored_active_branch.to_s, '']
-      branch_view
+      build_branch_view(colored_issue_state, colored_active_branch, colored_issue_title)
     end
 
     private
 
     # @return [Boolean] can we check the status of this branch
     def should_check_status?(branch_name_after_slash)
-      @is_issue || !branch_name_after_slash.to_i.zero? || !branch_name_after_slash.include?('.')
+      @is_issue ||
+        !branch_name_after_slash.to_i.zero? ||
+        !branch_name_after_slash.include?('.')
     end
 
+    # Hit the Github api then set `@issue_state` and `@issue_title` with the response
     def read_current_issue_status
       api_url = build_api_url
       issue_response = JSON.parse(GithubIssueRepository.get(api_url))
@@ -92,6 +87,16 @@ module Gbre
       "https://api.github.com/repos/openscope/openscope/issues/#{@issue_number}"
     end
 
+    def build_branch_view(issue_state, active_branch, issue_title)
+      return [
+        issue_state.to_s,
+        active_branch.to_s,
+        issue_title.to_s
+      ] if @is_issue
+
+      ['', active_branch.to_s, '']
+    end
+
     # @param text [String] the text to display
     # @param condition [Boolean] evaluated boolean used to determine output color
     # @return [String] colorized string
@@ -101,8 +106,12 @@ module Gbre
       Rainbow(text.to_s)
     end
 
+    # @return [String] colorized current issue state open = green, red =closed
     def build_colored_issue_state
-      @issue_state == 'open' ? Rainbow(@issue_state.to_s).green : Rainbow(@issue_state.to_s).red
+      return '' if @issue_state == ''
+      return Rainbow(@issue_state.to_s).green if @issue_state == 'open'
+
+      Rainbow(@issue_state.to_s).red
     end
   end
 end

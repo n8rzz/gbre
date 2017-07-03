@@ -1,5 +1,3 @@
-#!/bin/env/ruby
-
 require 'net/https'
 require 'open-uri'
 

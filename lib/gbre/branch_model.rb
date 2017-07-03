@@ -32,9 +32,7 @@ module Gbre
       colored_issue_title = build_magenta_text_with_condition(@issue_title, @is_active_branch)
       colored_issue_state = ''
 
-      if @issue_state != ''
-        colored_issue_state = build_colored_issue_state
-      end
+      colored_issue_state = build_colored_issue_state if @issue_state != ''
 
       if @is_issue
         branch_view = [
@@ -69,9 +67,7 @@ module Gbre
     end
 
     def build_magenta_text_with_condition(text, condition)
-      if condition
-        return Rainbow(text.to_s).magenta
-      end
+      return Rainbow(text.to_s).magenta if condition
 
       Rainbow(text.to_s)
     end

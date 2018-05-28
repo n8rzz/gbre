@@ -27,7 +27,7 @@ RSpec.describe Gbre::BranchModel do
 
     it 'returns the correct string when the branch maps to an issue number' do
       @branch_model = Gbre::BranchModel.new(feature_mock)
-      expect(@branch_model.display_branch).to include('open', 'feature/123', 'An Issue Title')
+      expect(@branch_model.display_branch).to include('feature/123', 'An Issue Title')
     end
   end
 

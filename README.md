@@ -1,26 +1,29 @@
 # Gbre
-Gbre stands for _Git Branch Enhanced_ and is an extremely opinionated layer added on top of the `git branch` command.  
 
+Gbre stands for _Git Branch Enhanced_ and is an extremely opinionated layer added on top of the `git branch` command.
 
 ## Installation
 
 ```bash
-$ gem install gbre
+gem install gbre
 ```
 
 ## Usage
 
 In order to use this gem, the following conditions must be met:
+
 - git branches are named `TOPIC/ISSUE_NUMBER` (ex: `feature/123`)
 - you are working within the hardcoded project ([Openscope](http://github.com/openscope/openscope))
 - you can run ruby
 
 From the repository root run:
+
 ```bash
-$ gbre
+gbre
 ```
 
 This gem will transform the usual `git branch` output from:
+
 ```bash
 * develop
   feature/123
@@ -31,6 +34,7 @@ This gem will transform the usual `git branch` output from:
 ```
 
 into a list with a little more information:
+
 ```bash
 +-----------+----------------------+-----------------------------+
 |                      GIT Branch Enhanced                       |
@@ -46,7 +50,6 @@ into a list with a little more information:
 +-----------+----------------------+-----------------------------+
 ```
 
-
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
@@ -56,7 +59,6 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/n8rzz/gbre.
-
 
 ## License
 
